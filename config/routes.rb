@@ -1,9 +1,9 @@
 WorktimeTracker::Application.routes.draw do
-  get "employees/new"
 
   match "/about", to: "home#about"
   match "/contact", to: "home#contact"
 
+  resources :employees
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
