@@ -12,11 +12,15 @@
 #
 
 class Employee < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :middle_name
+  attr_accessible :email, :first_name, :last_name, :middle_name, :password, :password_confirmation
+  has_secure_password
+
   before_save { |employee| employee.email = email.downcase }
 
   validates :first_name, presence: true, length: { in: 4..50 }
   validates :last_name, presence: true, length: { in: 2..50 }
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :password_confirmation, presence: true
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true,

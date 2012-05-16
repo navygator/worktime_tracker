@@ -14,7 +14,11 @@
 require 'spec_helper'
 
 describe Employee do
-  before { @employee = Employee.new(first_name: "First", last_name: "Employee", email: "user@example.com")}
+  before { @employee = Employee.new(first_name: "First",
+                                    last_name: "Employee",
+                                    email: "user@example.com",
+                                    password: "foobar",
+                                    password_confirmation: "foobar")}
 
   subject { @employee }
 
@@ -23,10 +27,13 @@ describe Employee do
   it { should respond_to(:middle_name) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
+  it { should respond_to(:password) }
+  it { should respond_to(:password_confirmation) }
+  it { should respond_to(:authenticate) }
   it { should be_valid }
 
   describe "Validations" do
-    describe "First Name" do
+       describe "First Name" do
       it "should be present" do
         @employee.first_name = ""
         @employee.should_not be_valid
@@ -88,6 +95,44 @@ describe Employee do
         employee_with_same_email.save
         @employee.should_not be_valid
       end
+    end
+
+    describe "Password" do
+      describe "when is not present" do
+        before { @employee.password = @employee.password_confirmation = " " }
+        it { should_not be_valid }
+      end
+
+      describe "when doesn't match confirmation" do
+        before { @employee.password_confirmation = "mismatch" }
+        it { should_not be_valid }
+      end
+
+      describe "when confirmation is nil" do
+        before { @employee.password_confirmation = nil }
+        it { should_not be_valid }
+      end
+    end
+  end
+
+  describe "Authenticate method" do
+    before { @employee.save }
+    let(:found_employee) { Employee.find_by_email(@employee.email) }
+
+    describe "with valid password" do
+      it { should == found_employee.authenticate(@employee.password) }
+    end
+
+    describe "" do
+      let(:invalid_authenticate) { found_employee.authenticate("invalid") }
+
+      it { should_not == invalid_authenticate }
+      specify {invalid_authenticate.should be_false }
+    end
+
+    describe "with password to short" do
+      before { @employee.password = @employee.password_confirmation = "a" * 5 }
+      it { should_not be_valid }
     end
   end
 end
