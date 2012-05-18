@@ -32,7 +32,6 @@ describe "UserPages" do
         fill_in :middle_name,   with: "Michael"
         fill_in "Last name",    with: "First"
         fill_in "Email",        with: "joe.first@example.com"
-        fill_in "Email",        with: "joe.first@example.com"
         fill_in "Password",     with: "foobar"
         fill_in "Confirmation", with: "foobar"
       end
@@ -41,9 +40,15 @@ describe "UserPages" do
         expect { click_button submit }.to change(Employee, :count).by(1)
       end
 
-      it "should have success message" do
-        click_button submit
-        page.should have_selector("div.alert-success", text: 'successfull')
+      describe "after create" do
+        before { click_button submit }
+        let(:employee) { Employee.find_by_email("joe.first@example.com") }
+
+        it { should have_selector("title", text: employee.short_name) }
+
+        it "should have success message" do
+          page.should have_selector("div.alert.alert-success", text: 'successfully')
+        end
       end
     end
   end
