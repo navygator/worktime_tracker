@@ -1,9 +1,12 @@
 WorktimeTracker::Application.routes.draw do
 
+  resources :employees
+  resources :sessions, only: [:new, :create, :destroy]
+
   match "/about", to: "home#about"
   match "/contact", to: "home#contact"
-
-  resources :employees
+  match "/signin", to: "sessions#new"
+  match '/signout', to: 'sessions#destroy', via: :delete
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
