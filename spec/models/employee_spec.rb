@@ -25,6 +25,8 @@ describe Employee do
   it { should respond_to(:first_name) }
   it { should respond_to(:last_name) }
   it { should respond_to(:middle_name) }
+  it { should respond_to(:full_name) }
+  it { should respond_to(:short_name) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
@@ -130,9 +132,17 @@ describe Employee do
       specify {invalid_authenticate.should be_false }
     end
 
-    describe "with password to short" do
+    describe "with password too short" do
       before { @employee.password = @employee.password_confirmation = "a" * 5 }
       it { should_not be_valid }
     end
+  end
+
+  it "should have short name from last and first names" do
+    @employee.short_name.should == "#{@employee.last_name} #{@employee.first_name}"
+  end
+
+  it "should have full name from last, first and middle names" do
+    @employee.full_name.should == "#{@employee.short_name} #{@employee.middle_name}"
   end
 end
