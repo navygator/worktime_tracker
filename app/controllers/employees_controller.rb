@@ -1,4 +1,6 @@
 class EmployeesController < ApplicationController
+  force_ssl only: [:new, :create] if Rails.env.production?
+
   def index
   end
 
