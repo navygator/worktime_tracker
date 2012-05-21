@@ -16,6 +16,7 @@ class Employee < ActiveRecord::Base
   has_secure_password
 
   before_save { self.email.downcase! }
+  before_save :create_remember_token
 
   validates :first_name, presence: true, length: { in: 4..50 }
   validates :last_name, presence: true, length: { in: 2..50 }
@@ -33,5 +34,10 @@ class Employee < ActiveRecord::Base
 
   def short_name
     "#{last_name} #{first_name}"
+  end
+
+private
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
   end
 end

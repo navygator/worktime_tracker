@@ -32,6 +32,7 @@ describe Employee do
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:remember_token) }
   it { should be_valid }
 
   describe "Validations" do
@@ -145,4 +146,9 @@ describe Employee do
   it "should have full name from last, first and middle names" do
     @employee.full_name.should == "#{@employee.short_name} #{@employee.middle_name}"
   end
+
+  describe "remember token" do
+    before { @employee.save }
+    its(:remember_token) { should_not be_blank }
+    end
 end
