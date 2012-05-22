@@ -19,8 +19,8 @@ group :test do
   gem 'capybara', '1.1.2'
   gem 'spork'
   gem 'factory_girl_rails'
-  gem 'cucumber-rails'
   gem 'database_cleaner'
+  gem 'cucumber-rails', require: false
 end
 
 group :production do
