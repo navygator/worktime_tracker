@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  force_ssl if Rails.env.production?
+
   def new
   end
 
