@@ -7,7 +7,8 @@ gem 'rails', '3.2.3'
 
 gem 'workflow'
 #gem 'rkerberos'
-#gem 'rubyntlm'
+gem 'rubyntlm'
+gem 'adauth'
 
 group :development, :test do
   gem 'sqlite3'

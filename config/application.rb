@@ -63,5 +63,6 @@ module WorktimeTracker
     config.assets.version = '1.0'
 
     #config.middleware.use "RackAuthSso"
+    #config.middleware.use "SampleAuth"
   end
 end

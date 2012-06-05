@@ -1,6 +1,9 @@
 class EmployeesController < ApplicationController
   force_ssl only: [:new, :create] if Rails.env.production?
 
+  before_filter :signed_user, :only => [:edit, :update]
+  before_filter :correct_user, :only => [:edit, :update]
+
   def index
   end
 
@@ -20,5 +23,27 @@ class EmployeesController < ApplicationController
 
   def show
     @employee = Employee.find(params[:id])
+  end
+
+  def edit
+  end
+
+  def update
+    if @employee.update_attributes(params[:employee])
+      flash[:success] = "Profile successfully updated"
+      redirect_to employee_path @employee
+    else
+      render 'edit'
+    end
+  end
+
+private
+  def signed_user
+    redirect_to signin_path, notice: "Please sign in" unless signed_in?
+  end
+
+  def correct_user
+    @employee = Employee.find(params[:id])
+    redirect_to root_path, error: "You are not allowed" unless current_user?(@employee)
   end
 end

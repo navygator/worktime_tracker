@@ -3,12 +3,53 @@ require 'spec_helper'
 describe "UserPages" do
   subject { page }
 
-  describe "user profile" do
+  describe "employee profile" do
     let(:employee) { FactoryGirl.create(:employee) }
     before { visit employee_path(employee) }
 
     it { should have_selector('h1', text: employee.last_name) }
     it { should have_selector('title', text: employee.last_name) }
+
+    describe "edit" do
+      before do
+        sign_in employee
+        visit edit_employee_path(employee)
+      end
+
+      describe "page" do
+        it { should have_selector("h1", text: "Update your profile") }
+        it { should have_selector("title", text: "Edit employee") }
+      end
+
+      describe "with invalid information" do
+        before { click_button "Save changes" }
+
+        it { should have_content('error') }
+      end
+
+      describe "with valid information" do
+        let(:new_fname) { "Jack" }
+        let(:new_mname) { "Allan" }
+        let(:new_lname) { "Smith" }
+        let(:new_email) { "jack.smith@example.com" }
+        before do
+          fill_in "First name",   with: new_fname
+          fill_in "Middle name",  with: new_mname
+          fill_in "Last name",    with: new_lname
+          fill_in "Email",        with: new_email
+          fill_in "Password",     with: employee.password
+          fill_in "Confirmation", with: employee.password
+          click_button "Save changes"
+        end
+
+        it { should have_selector("div.alert.alert-success", text: 'successfully') }
+        it { should have_selector("title", text: "#{new_lname} #{new_fname}") }
+        it { should have_selector("h1", text: "#{new_lname} #{new_fname} #{new_mname}") }
+
+        specify { employee.reload.first_name.should == new_fname }
+        specify { employee.reload.last_name.should == new_lname }
+      end
+    end
   end
 
   describe "creation employee" do
@@ -28,8 +69,8 @@ describe "UserPages" do
 
     describe "with valid information" do
       before do
-        fill_in :first_name,    with: "John"
-        fill_in :middle_name,   with: "Michael"
+        fill_in "First name",   with: "John"
+        fill_in "Middle name",  with: "Michael"
         fill_in "Last name",    with: "First"
         fill_in "Email",        with: "joe.first@example.com"
         fill_in "Password",     with: "foobar"

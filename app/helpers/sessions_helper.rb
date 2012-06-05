@@ -20,4 +20,8 @@ module SessionsHelper
   def current_user
     @current_user ||= Employee.where(:remember_token => session[:remember_token]).first
   end
+
+  def current_user?(employee)
+    employee == current_user
+  end
 end

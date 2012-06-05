@@ -25,13 +25,12 @@ describe "AuthenticationPages" do
     describe "with valid credentials" do
       let(:employee) { FactoryGirl.create(:employee) }
       before do
-        fill_in "Email",    with: employee.email
-        fill_in "Password", with: employee.password
-        click_button submit
+        sign_in employee
       end
 
       it { should have_selector("title", text: employee.short_name) }
       it { should have_link("Profile", href: employee_path(employee)) }
+      it { should have_link("Settings", href: edit_employee_path(employee)) }
       it { should have_link("Sign out", href: signout_path) }
       it { should_not have_link("Sign in", href: signin_path) }
 
@@ -40,6 +39,42 @@ describe "AuthenticationPages" do
 
         it { should_not have_link("Sign out", href: signout_path) }
         it { should have_link("Sign in", href: signin_path) }
+      end
+    end
+  end
+
+  describe "authorization" do
+    let(:employee) { FactoryGirl.create(:employee) }
+
+    describe "for non signed users" do
+      describe "visiting edit page" do
+        before { visit edit_employee_path(employee) }
+
+        it { should have_selector("h1", text: "Sign in")}
+      end
+
+      describe "submitting to update action" do
+        before { put employee_path(employee) }
+
+        specify { response.should redirect_to signin_path }
+      end
+    end
+
+    describe "for wrong users" do
+      let(:another_employee) { FactoryGirl.create(:employee, email: "other@example.com") }
+      before { sign_in employee }
+
+      describe "visiting edit page" do
+        before { visit edit_employee_path(another_employee) }
+
+        it { should_not have_selector('title', text: full_title('Edit employee')) }
+        it { should have_selector('title', text: full_title('Home')) }
+      end
+
+      describe "submitting to update action" do
+        before { put employee_path(another_employee) }
+
+        specify { response.should redirect_to root_path }
       end
     end
   end
