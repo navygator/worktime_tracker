@@ -31,7 +31,6 @@ describe EmployeesController do
       before { sign_in_by_controller(employee) }
 
       it "should redirect to root" do
-        puts session
         put :update, id: another_employee, employee: another_employee
         response.should redirect_to(root_path)
       end

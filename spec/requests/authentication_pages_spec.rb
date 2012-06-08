@@ -58,6 +58,28 @@ describe "AuthenticationPages" do
 
         specify { response.should redirect_to signin_path }
       end
+
+      describe "accessing users index" do
+        before { visit employees_path }
+
+        it { should have_selector("title", text: "Sign in") }
+      end
+
+      describe "when attempting to visit edit page" do
+        before do
+          visit edit_employee_path(employee)
+          #fill_in "Email",    with: employee.email
+          #fill_in "Password", with: employee.password
+          #click_button "Sign in"
+          sign_in employee
+        end
+
+        describe "after signin in" do
+          it "should render desired original page" do
+            page.should have_selector('title', text: 'Edit employee')
+          end
+        end
+      end
     end
 
     describe "for wrong users" do
@@ -74,6 +96,7 @@ describe "AuthenticationPages" do
       describe "submitting to update action" do
         before { put employee_path(another_employee) }
 
+        #it "should have redirected to root_path"
         specify { response.should redirect_to root_path }
       end
     end

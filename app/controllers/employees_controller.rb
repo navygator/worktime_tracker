@@ -1,10 +1,11 @@
 class EmployeesController < ApplicationController
   force_ssl only: [:new, :create] if Rails.env.production?
 
-  before_filter :signed_user, :only => [:edit, :update]
+  before_filter :signed_user, :only => [:index, :edit, :update]
   before_filter :correct_user, :only => [:edit, :update]
 
   def index
+    @employees = Employee.all
   end
 
   def new
@@ -39,6 +40,7 @@ class EmployeesController < ApplicationController
 
 private
   def signed_user
+    store_location
     redirect_to signin_path, notice: "Please sign in" unless signed_in?
   end
 
