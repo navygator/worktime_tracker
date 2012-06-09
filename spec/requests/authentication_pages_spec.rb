@@ -29,6 +29,7 @@ describe "AuthenticationPages" do
       end
 
       it { should have_selector("title", text: employee.short_name) }
+      it { should have_link("Employees",    href: employees_path) }
       it { should have_link("Profile", href: employee_path(employee)) }
       it { should have_link("Settings", href: edit_employee_path(employee)) }
       it { should have_link("Sign out", href: signout_path) }
