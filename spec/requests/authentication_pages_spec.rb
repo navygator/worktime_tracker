@@ -69,9 +69,6 @@ describe "AuthenticationPages" do
       describe "when attempting to visit edit page" do
         before do
           visit edit_employee_path(employee)
-          #fill_in "Email",    with: employee.email
-          #fill_in "Password", with: employee.password
-          #click_button "Sign in"
           sign_in employee
         end
 
@@ -100,6 +97,18 @@ describe "AuthenticationPages" do
         #it "should have redirected to root_path"
         specify { response.should redirect_to root_path }
       end
+    end
+  end
+
+  describe "as non-admin user" do
+    let(:employee) { FactoryGirl.create(:employee) }
+    let(:non_admin) { FactoryGirl.create(:employee) }
+
+    before { sign_in non_admin }
+
+    describe "submitting delete request to Employee#destroy action" do
+      before { delete employee_path(employee) }
+      specify { response.should redirect_to(root_path) }
     end
   end
 end

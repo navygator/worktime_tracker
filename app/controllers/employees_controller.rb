@@ -3,9 +3,10 @@ class EmployeesController < ApplicationController
 
   before_filter :signed_user, :only => [:index, :edit, :update]
   before_filter :correct_user, :only => [:edit, :update]
+  before_filter :admin_user, :only => [:destroy]
 
   def index
-    @employees = Employee.all
+    @employees = Employee.paginate(page: params[:page])
   end
 
   def new
@@ -38,6 +39,12 @@ class EmployeesController < ApplicationController
     end
   end
 
+  def destroy
+    Employee.find(params[:id]).destroy
+    flash[:success] = "Employee was successfully deleted"
+    redirect_to employees_path
+  end
+
 private
   def signed_user
     store_location
@@ -47,5 +54,9 @@ private
   def correct_user
     @employee = Employee.find(params[:id])
     redirect_to root_path, error: "You are not allowed" unless current_user?(@employee)
+  end
+
+  def admin_user
+    redirect_to root_path unless current_user.admin?
   end
 end

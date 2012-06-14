@@ -95,19 +95,45 @@ describe "UserPages" do
   end
 
   describe "index" do
-    before do
-      sign_in FactoryGirl.create(:employee)
-      FactoryGirl.create(:employee, first_name: "Alex", email: "alex@example.com")
-      FactoryGirl.create(:employee, first_name: "Mike", email: "mike@example.com")
+    let(:employee) { FactoryGirl.create(:employee) }
+    before(:all) { 30.times { FactoryGirl.create(:employee) } }
+    after(:all) { Employee.delete_all }
+
+    before(:each) do
+      sign_in employee
       visit employees_path
     end
 
     it { should have_selector("title", text: "All employees") }
     it { should have_selector("h1", text: "All employees") }
 
-    it "should list all employees" do
-      Employee.all.each do |employee|
-        page.should have_selector("li", text: employee.first_name)
+    describe "pagination" do
+      it { should have_selector("div.pagination")}
+
+      it "should list each employees" do
+        Employee.paginate(page: 1).each do |employee|
+          page.should have_selector("li", text: employee.short_name)
+        end
+      end
+    end
+
+    describe "delete links" do
+      it { should_not have_link("delete") }
+
+      describe "for admin users" do
+        let(:admin) { FactoryGirl.create(:admin) }
+
+        before do
+          sign_in admin
+          visit employees_path
+        end
+
+        it { should have_link("delete", href: employee_path(Employee.first)) }
+        it { should_not have_link("delete", href: employee_path(admin)) }
+
+        it "should be able to delete another employee" do
+          expect { click_link("delete") }.to change(Employee, :count).by(-1)
+        end
       end
     end
   end

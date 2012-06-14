@@ -1,1 +1,9 @@
-<li><%= employee.first_name %></li>
+<li>
+  <%= link_to employee.short_name, employee %>
+  <% if current_user.admin? && !current_user?(employee) %>
+    <%= link_to "delete", employee,
+                 method: :delete,
+                 class: "btn btn-danger",
+                 data: { confirm: "Are you sure?" } %>
+  <% end %>
+</li>

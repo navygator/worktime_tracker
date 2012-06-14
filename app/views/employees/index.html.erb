@@ -1,7 +1,12 @@
 <%= provide(:title, 'All employees') %>
 <h1 class="center">All employees</h1>
+
+<%= will_paginate %>
+
 <div class="row">
   <ul class="employees">
-  <%= render @employees %>
+    <%= render @employees %>
   </ul>
 </div>
+
+<%= will_paginate %>
