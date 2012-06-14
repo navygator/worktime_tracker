@@ -9,6 +9,8 @@ describe "AuthenticationPages" do
 
     it { should have_selector("h1", text: "Sign in") }
     it { should have_selector("title", text: "Sign in")}
+    it { should_not have_link("Profile") }
+    it { should_not have_link("Settings") }
 
     describe "with invalid credentials" do
       before { click_button submit }
@@ -24,9 +26,7 @@ describe "AuthenticationPages" do
 
     describe "with valid credentials" do
       let(:employee) { FactoryGirl.create(:employee) }
-      before do
-        sign_in employee
-      end
+      before { sign_in employee }
 
       it { should have_selector("title", text: employee.short_name) }
       it { should have_link("Employees",    href: employees_path) }
@@ -93,8 +93,6 @@ describe "AuthenticationPages" do
 
       describe "submitting to update action" do
         before { put employee_path(another_employee) }
-
-        #it "should have redirected to root_path"
         specify { response.should redirect_to root_path }
       end
     end
@@ -108,6 +106,25 @@ describe "AuthenticationPages" do
 
     describe "submitting delete request to Employee#destroy action" do
       before { delete employee_path(employee) }
+      specify { response.should redirect_to(root_path) }
+    end
+  end
+
+  describe "for signed in users" do
+    before { sign_in FactoryGirl.create(:employee) }
+
+    describe "visiting new action" do
+      before { get new_employee_path }
+      specify { response.should redirect_to(root_path) }
+    end
+
+    describe "submitting post request to Employee#create action" do
+      let(:new_employee) { { first_name: "John",
+                             last_name: "First",
+                             email: "new@example.com",
+                             password: "foobar",
+                             password_confirmation: "foobar" } }
+      before { post employees_path({ employee: new_employee }) }
       specify { response.should redirect_to(root_path) }
     end
   end

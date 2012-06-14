@@ -1,9 +1,10 @@
 class EmployeesController < ApplicationController
   force_ssl only: [:new, :create] if Rails.env.production?
 
-  before_filter :signed_user, :only => [:index, :edit, :update]
+  before_filter :not_signed_user, :only => [:index, :edit, :update]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user, :only => [:destroy]
+  before_filter :signed_user, :only => [:new, :create]
 
   def index
     @employees = Employee.paginate(page: params[:page])
@@ -47,6 +48,10 @@ class EmployeesController < ApplicationController
 
 private
   def signed_user
+    redirect_to root_path if signed_in?
+  end
+
+  def not_signed_user
     store_location
     redirect_to signin_path, notice: "Please sign in" unless signed_in?
   end
