@@ -1,7 +1,7 @@
 <li>
-  <%= link_to employee.short_name, employee %>
-  <% if current_user.admin? && !current_user?(employee) %>
-    <%= link_to "delete", employee,
+  <%= link_to user.short_name, user %>
+  <% if current_user.admin? && !current_user?(user) %>
+    <%= link_to "delete", user,
                  method: :delete,
                  class: "btn btn-danger",
                  data: { confirm: "Are you sure?" } %>

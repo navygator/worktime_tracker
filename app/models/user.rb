@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: employees
+# Table name: users
 #
 #  id          :integer         not null, primary key
 #  first_name  :string(255)
@@ -11,14 +11,14 @@
 #  updated_at  :datetime        not null
 #
 
-class Employee < ActiveRecord::Base
+class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :middle_name, :password, :password_confirmation
   has_secure_password
 
   before_save { self.email.downcase! }
   before_save :create_remember_token
 
-  validates :first_name, presence: true, length: { in: 4..50 }
+  validates :first_name, presence: true, length: { in: 2..50 }
   validates :last_name, presence: true, length: { in: 2..50 }
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true

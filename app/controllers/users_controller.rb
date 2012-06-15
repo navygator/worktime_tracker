@@ -1,4 +1,4 @@
-class EmployeesController < ApplicationController
+class UsersController < ApplicationController
   force_ssl only: [:new, :create] if Rails.env.production?
 
   before_filter :not_signed_user, :only => [:index, :edit, :update]
@@ -7,43 +7,43 @@ class EmployeesController < ApplicationController
   before_filter :signed_user, :only => [:new, :create]
 
   def index
-    @employees = Employee.paginate(page: params[:page])
+    @users = User.paginate(page: params[:page])
   end
 
   def new
-    @employee = Employee.new
+    @user = User.new
   end
 
   def create
-    @employee = Employee.new(params[:employee])
-    if @employee.save
-      flash[:success] = 'Employee was successfully created'
-      redirect_to @employee
+    @user = User.new(params[:user])
+    if @user.save
+      flash[:success] = 'user was successfully created'
+      redirect_to @user
     else
       render 'new'
     end
   end
 
   def show
-    @employee = Employee.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def edit
   end
 
   def update
-    if @employee.update_attributes(params[:employee])
+    if @user.update_attributes(params[:user])
       flash[:success] = "Profile successfully updated"
-      redirect_to employee_path @employee
+      redirect_to user_path @user
     else
       render 'edit'
     end
   end
 
   def destroy
-    Employee.find(params[:id]).destroy
-    flash[:success] = "Employee was successfully deleted"
-    redirect_to employees_path
+    User.find(params[:id]).destroy
+    flash[:success] = "user was successfully deleted"
+    redirect_to users_path
   end
 
 private
@@ -57,8 +57,8 @@ private
   end
 
   def correct_user
-    @employee = Employee.find(params[:id])
-    redirect_to root_path, error: "You are not allowed" unless current_user?(@employee)
+    @user = User.find(params[:id])
+    redirect_to root_path, error: "You are not allowed" unless current_user?(@user)
   end
 
   def admin_user

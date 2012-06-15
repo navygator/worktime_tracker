@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20120614065042) do
 
-  create_table "employees", :force => true do |t|
+  create_table "users", :force => true do |t|
     t.string   "first_name"
     t.string   "middle_name"
     t.string   "last_name"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20120614065042) do
     t.boolean  "admin",           :default => false
   end
 
-  add_index "employees", ["email"], :name => "index_employees_on_email", :unique => true
-  add_index "employees", ["remember_token"], :name => "index_employees_on_remember_token"
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
 
 end

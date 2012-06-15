@@ -1,6 +1,6 @@
 WorktimeTracker::Application.routes.draw do
 
-  resources :employees
+  resources :users
   resources :sessions, only: [:new, :create, :destroy]
 
   match "/about", to: "home#about"

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :employee do
+  factory :user do
     sequence(:first_name)  { |n| "Person #{n}" }
     middle_name     ""
     last_name     "Hartl"

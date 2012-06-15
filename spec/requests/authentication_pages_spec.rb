@@ -25,13 +25,13 @@ describe "AuthenticationPages" do
     end
 
     describe "with valid credentials" do
-      let(:employee) { FactoryGirl.create(:employee) }
-      before { sign_in employee }
+      let(:user) { FactoryGirl.create(:user) }
+      before { sign_in user }
 
-      it { should have_selector("title", text: employee.short_name) }
-      it { should have_link("Employees",    href: employees_path) }
-      it { should have_link("Profile", href: employee_path(employee)) }
-      it { should have_link("Settings", href: edit_employee_path(employee)) }
+      it { should have_selector("title", text: user.short_name) }
+      it { should have_link("Users",    href: users_path) }
+      it { should have_link("Profile", href: user_path(user)) }
+      it { should have_link("Settings", href: edit_user_path(user)) }
       it { should have_link("Sign out", href: signout_path) }
       it { should_not have_link("Sign in", href: signin_path) }
 
@@ -45,86 +45,86 @@ describe "AuthenticationPages" do
   end
 
   describe "authorization" do
-    let(:employee) { FactoryGirl.create(:employee) }
+    let(:user) { FactoryGirl.create(:user) }
 
     describe "for non signed users" do
       describe "visiting edit page" do
-        before { visit edit_employee_path(employee) }
+        before { visit edit_user_path(user) }
 
         it { should have_selector("h1", text: "Sign in")}
       end
 
       describe "submitting to update action" do
-        before { put employee_path(employee) }
+        before { put user_path(user) }
 
         specify { response.should redirect_to signin_path }
       end
 
       describe "accessing users index" do
-        before { visit employees_path }
+        before { visit users_path }
 
         it { should have_selector("title", text: "Sign in") }
       end
 
       describe "when attempting to visit edit page" do
         before do
-          visit edit_employee_path(employee)
-          sign_in employee
+          visit edit_user_path(user)
+          sign_in user
         end
 
         describe "after signin in" do
           it "should render desired original page" do
-            page.should have_selector('title', text: 'Edit employee')
+            page.should have_selector('title', text: 'Edit user')
           end
         end
       end
     end
 
     describe "for wrong users" do
-      let(:another_employee) { FactoryGirl.create(:employee, email: "other@example.com") }
-      before { sign_in employee }
+      let(:another_user) { FactoryGirl.create(:user, email: "other@example.com") }
+      before { sign_in user }
 
       describe "visiting edit page" do
-        before { visit edit_employee_path(another_employee) }
+        before { visit edit_user_path(another_user) }
 
-        it { should_not have_selector('title', text: full_title('Edit employee')) }
+        it { should_not have_selector('title', text: full_title('Edit user')) }
         it { should have_selector('title', text: full_title('Home')) }
       end
 
       describe "submitting to update action" do
-        before { put employee_path(another_employee) }
+        before { put user_path(another_user) }
         specify { response.should redirect_to root_path }
       end
     end
   end
 
   describe "as non-admin user" do
-    let(:employee) { FactoryGirl.create(:employee) }
-    let(:non_admin) { FactoryGirl.create(:employee) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:non_admin) { FactoryGirl.create(:user) }
 
     before { sign_in non_admin }
 
-    describe "submitting delete request to Employee#destroy action" do
-      before { delete employee_path(employee) }
+    describe "submitting delete request to User#destroy action" do
+      before { delete user_path(user) }
       specify { response.should redirect_to(root_path) }
     end
   end
 
   describe "for signed in users" do
-    before { sign_in FactoryGirl.create(:employee) }
+    before { sign_in FactoryGirl.create(:user) }
 
     describe "visiting new action" do
-      before { get new_employee_path }
+      before { get new_user_path }
       specify { response.should redirect_to(root_path) }
     end
 
-    describe "submitting post request to Employee#create action" do
-      let(:new_employee) { { first_name: "John",
+    describe "submitting post request to User#create action" do
+      let(:new_user) { { first_name: "John",
                              last_name: "First",
                              email: "new@example.com",
                              password: "foobar",
                              password_confirmation: "foobar" } }
-      before { post employees_path({ employee: new_employee }) }
+      before { post users_path({ user: new_user }) }
       specify { response.should redirect_to(root_path) }
     end
   end

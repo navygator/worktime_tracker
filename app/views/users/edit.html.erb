@@ -1,4 +1,4 @@
-<%= provide(:title, 'Edit employee') %>
+<%= provide(:title, 'Edit user') %>
 <h1 class="center">Update your profile</h1>
 <div class="row">
   <div class="span1 offset1">
@@ -6,7 +6,7 @@
     <p><%= link_to "Edit photo", "#" %></p>
   </div>
   <div class="span6 offset1">
-    <%= form_for @employee do |f| %>
+    <%= form_for @user do |f| %>
         <%= render 'fields', :f => f %>
         <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>

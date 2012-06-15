@@ -1,5 +1,5 @@
 WorktimeTracker::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
+  # Settings specified here will take precedence over those in config/auth_ntlm.rb
 
   # Code is not reloaded between requests
   config.cache_classes = true
