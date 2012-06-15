@@ -34,6 +34,9 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
+  it { should respond_to(:approver) }
+  it { should respond_to(:approvers) }
+  it { should respond_to(:approving) }
 
   it { should be_valid }
   it { should_not be_admin }

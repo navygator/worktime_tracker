@@ -15,6 +15,12 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :middle_name, :password, :password_confirmation
   has_secure_password
 
+  has_many :approvings, :foreign_key => :approver_id, :dependent => :destroy
+  has_many :revers_approvings, :foreign_key => :approved_id,
+           :class_name => "Approving", :dependent => :destroy
+  has_many :approving, :through => :approvings, :source => :approved
+  has_many :approvers, :through => :revers_approvings, :source => :approver
+
   before_save { self.email.downcase! }
   before_save :create_remember_token
 
