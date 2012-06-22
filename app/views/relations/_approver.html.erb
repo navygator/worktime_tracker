@@ -1,0 +1,16 @@
+<tr>
+  <td><%= approver.short_name %></td>
+</tr>
+<tr>
+  <td>
+    <div>
+      <table class="table table-striped table-detail">
+        <tr>
+          <th>FIO</th>
+          <th>Actions</th>
+        </tr>
+        <%= render approver.approving %>
+      </table>
+    </div>
+  </td>
+</tr>

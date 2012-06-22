@@ -106,6 +106,9 @@ describe "UserPages" do
 
     it { should have_selector("title", text: "All users") }
     it { should have_selector("h1", text: "All users") }
+    it { should_not have_link("delete") }
+    it { should_not have_selector("#approver") }
+    it { should_not have_selector("edit") }
 
     describe "pagination" do
       it { should have_selector("div.pagination")}
@@ -117,16 +120,15 @@ describe "UserPages" do
       end
     end
 
-    describe "delete links" do
-      it { should_not have_link("delete") }
+    describe "for admin users" do
+      let(:admin) { FactoryGirl.create(:admin) }
 
-      describe "for admin users" do
-        let(:admin) { FactoryGirl.create(:admin) }
+      before do
+        sign_in admin
+        visit users_path
+      end
 
-        before do
-          sign_in admin
-          visit users_path
-        end
+      describe "delete links" do
 
         it { should have_link("delete", href: user_path(User.first)) }
         it { should_not have_link("delete", href: user_path(admin)) }
@@ -134,6 +136,19 @@ describe "UserPages" do
         it "should be able to delete another user" do
           expect { click_link("delete") }.to change(User, :count).by(-1)
         end
+      end
+
+      describe "approvers checkboxes" do
+        it { should have_selector("#approver") }
+
+        it "should change approver attribute when check box" do
+          check("#approver")
+
+        end
+      end
+
+      describe "edit links" do
+        it { should have_link("edit", href: edit_user_path(User.first)) }
       end
     end
   end

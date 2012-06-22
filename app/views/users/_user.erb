@@ -1,9 +1,19 @@
 <li>
-  <%= link_to user.short_name, user %>
+  <div class="user-info">
+    <%= link_to user.short_name, user %>
+  </div>
   <% if current_user.admin? && !current_user?(user) %>
-    <%= link_to "delete", user,
-                 method: :delete,
-                 class: "btn btn-danger",
-                 data: { confirm: "Are you sure?" } %>
+    <div class="user-info">
+      <% if user.approver %>
+          (Approver)
+      <% end %>
+    </div>
+    <div class="user-controls">
+        <%= link_to "edit", edit_user_path(user), class: "btn bnt-primary" %>
+        <%= link_to "delete", user,
+                    method: :delete,
+                    class: "btn btn-danger",
+                    data: { confirm: "Are you sure?" } %>
+    </div>
   <% end %>
 </li>

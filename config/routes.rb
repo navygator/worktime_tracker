@@ -1,5 +1,7 @@
 WorktimeTracker::Application.routes.draw do
 
+
+  resources :relations
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 

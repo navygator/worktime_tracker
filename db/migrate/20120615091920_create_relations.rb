@@ -1,6 +1,6 @@
-class CreateApprovings < ActiveRecord::Migration
+class CreateRelations < ActiveRecord::Migration
   def change
-    create_table :approvings do |t|
+    create_table :relations do |t|
       t.integer :approver_id
       t.integer :approved_id
 

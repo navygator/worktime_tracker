@@ -1,0 +1,12 @@
+<%= provide(:title, 'Approvers') %>
+<h1 class="center">Approvers</h1>
+<div class="row">
+  <table class="table table-striped">
+    <tr>
+      <th>Approver</th>
+    </tr>
+    <% @approvers.each do |approver| %>
+        <%= render "approver", approver: approver %>
+    <% end %>
+  </table>
+</div>

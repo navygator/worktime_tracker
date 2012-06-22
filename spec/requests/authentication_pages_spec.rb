@@ -110,6 +110,19 @@ describe "AuthenticationPages" do
     end
   end
 
+  describe "as admin user" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:admin) { FactoryGirl.create(:admin) }
+    before do
+      sign_in admin
+    end
+
+    describe "visit edit user page" do
+      before { visit edit_user_path(user) }
+      it { should have_selector('title', text: full_title('Edit user')) }
+    end
+  end
+
   describe "for signed in users" do
     before { sign_in FactoryGirl.create(:user) }
 
