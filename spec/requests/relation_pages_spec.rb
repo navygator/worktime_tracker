@@ -9,11 +9,15 @@ describe "RelationPages" do
   describe "index" do
     let(:approving) { FactoryGirl.create(:user) }
     before do
+      @relation = approver.relations.build(approved_id: approving.id)
+      @relation.save!
       visit relations_path
     end
 
-    it { should have_selector("h1", "Approvers") }
-    it { should have_selector("title", text: "Approvers") }
+    it { should have_selector("h1", text: I18n.t(:relations)) }
+    it { should have_selector("title", text: I18n.t(:relations)) }
     it { should have_selector("td", content: approver.short_name) }
+    it { should have_selector("td", content: approving.short_name) }
+    it { should have_link("delete", href: relation_path(@relation)) }
   end
 end

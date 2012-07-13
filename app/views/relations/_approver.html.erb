@@ -6,11 +6,14 @@
     <div>
       <table class="table table-striped table-detail">
         <tr>
-          <th>FIO</th>
+          <th>Approving</th>
           <th>Actions</th>
         </tr>
-        <%= render approver.approving %>
+        <% approver.approving.each do |approved| %>
+            <%= render "approved", approved: approved, relation: approver.relations.where(approved_id: approved).first %>
+        <% end %>
       </table>
+      <%= link_to "Add", new_relation_path(:approver_id => approver), :remote => true, class: "btn btn-primary" %>
     </div>
   </td>
 </tr>

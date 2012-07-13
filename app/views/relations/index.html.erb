@@ -1,12 +1,15 @@
-<%= provide(:title, 'Approvers') %>
-<h1 class="center">Approvers</h1>
+<%= provide(:title, t(:relations)) %>
+<h1 class="center"><%= t(:relations) %></h1>
 <div class="row">
-  <table class="table table-striped">
+  <table class="table">
     <tr>
-      <th>Approver</th>
+      <th><%= t(:approver) %></th>
     </tr>
     <% @approvers.each do |approver| %>
         <%= render "approver", approver: approver %>
-    <% end %>
+  <% end %>
   </table>
+</div>
+<div id = "new_relation_dialog" style ="display:none">
+  <div id = "relation_container"></div>
 </div>

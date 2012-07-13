@@ -96,7 +96,10 @@ describe "UserPages" do
 
   describe "index" do
     let(:user) { FactoryGirl.create(:user) }
-    before(:all) { 30.times { FactoryGirl.create(:user) } }
+    before(:all) do
+      30.times { FactoryGirl.create(:user) }
+      User.last.toggle!(:approver)
+    end
     after(:all) { User.delete_all }
 
     before(:each) do
@@ -138,13 +141,8 @@ describe "UserPages" do
         end
       end
 
-      describe "approvers checkboxes" do
-        it { should have_selector("#approver") }
-
-        it "should change approver attribute when check box" do
-          check("#approver")
-
-        end
+      describe "approvers info" do
+        it { should have_selector("div.user-info", text: "(Approver)") }
       end
 
       describe "edit links" do

@@ -3,6 +3,9 @@
 
 en:
   hello: "Hello world"
+  relations: "Relations"
+  approved_id: "User"
+  add_user: "Add user"
   activerecord:
     attributes:
       user:

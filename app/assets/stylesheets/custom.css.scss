@@ -168,6 +168,10 @@ input, textarea, select, .uneditable-input {
   margin-top: 45px;
   @include box_sizing;
 }
+.table-detail {
+  margin-left: 20px;
+}
+
 /* users index */
 
 .users {

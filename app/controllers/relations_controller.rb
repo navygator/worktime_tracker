@@ -1,10 +1,14 @@
 class RelationsController < ApplicationController
+  respond_to :html, :js, :json
+
   def index
     @approvers = User.where(:approver => true)
-    @users = User.all
   end
 
   def new
+    approver = User.find(params[:approver_id])
+    @relation = approver.relations.build
+    @users = User.all
   end
 
   def create

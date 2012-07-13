@@ -1,0 +1,16 @@
+$("#relation_container").html("<%= escape_javascript(render 'relation_form') %>");
+$('#new_relation_dialog').dialog({
+    title: '<%= t(:add_user) %>',
+    modal: true,
+    resizable: false,
+    width: 500,
+    buttons: {
+        "Ok": function() {
+            $("#new_relation").submit();
+            $(this).dialog('destroy');
+        },
+        "Cancel": function() {
+            $(this).dialog('destroy');
+        }
+    }
+});
