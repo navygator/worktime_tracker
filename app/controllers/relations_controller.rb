@@ -12,6 +12,13 @@ class RelationsController < ApplicationController
   end
 
   def create
+    approver = User.find(params[:relation][:approver_id])
+    @relation = approver.relations.build(:approved_id => params[:relation][:approved_id])
+    if @relation.save
+    else
+      @users = User.all
+      respond_with @relation
+    end
   end
 
   def destroy
