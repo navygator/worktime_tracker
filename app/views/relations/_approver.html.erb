@@ -1,10 +1,7 @@
-<tr>
-  <td><%= approver.short_name %></td>
-</tr>
-<tr>
-  <td>
-    <div id="approved_by_<%= approver.id %>">
-      <%= render 'approved_table', approver: approver %>
-    </div>
-  </td>
-</tr>
+<div class="approver">
+  <%= link_to approver.short_name, "#approved_by_#{approver.id}",
+              "data-toggle" => "collapse", "data-parent" => "#approvers" %>
+</div>
+<div id="approved_by_<%= approver.id %>" class="collapse">
+<%= render 'approved_table', approver: approver %>
+</div>

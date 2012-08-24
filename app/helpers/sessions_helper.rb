@@ -25,6 +25,19 @@ module SessionsHelper
     user == current_user
   end
 
+  def authenticate
+    deny_access unless signed_in?
+  end
+
+  def deny_access
+    store_location
+    redirect_to signin_path, :notice => "Please sign in to access this page."
+  end
+
+  def restricted_registered
+    redirect_to root_path
+  end
+
   def store_location
     session[:return_to] = request.fullpath
   end

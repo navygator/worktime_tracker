@@ -108,7 +108,6 @@ p {
 }
 
 /* sidebar */
-
 aside {
   section {
     padding: 10px 0;
@@ -160,7 +159,6 @@ input, textarea, select, .uneditable-input {
 }
 
 /* miscellaneous */
-
 .debug_dump {
   clear: both;
   float: left;
@@ -173,12 +171,23 @@ input, textarea, select, .uneditable-input {
 }
 
 /* users index */
-
 .users {
   list-style: none;
   margin: 0;
   li {
     overflow: auto;
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:last-child {
+      border-bottom: 1px solid $grayLighter;
+    }
+  }
+}
+
+.approvers {
+  list-style: none;
+  li {
+    overflow: none;
     padding: 10px 0;
     border-top: 1px solid $grayLighter;
     &:last-child {

@@ -1,6 +1,7 @@
 ru:
   relations: "Утверждающие"
   approved_id: "Пользователь"
+  approver: "Утверждающий"
   add_user: "Добавить пользователя"
   date:
     abbr_day_names:

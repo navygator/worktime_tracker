@@ -12,14 +12,14 @@ def config(url)
     when /mangafox\.me/
       @params = { title_regexp: /(?<=manga\/)[^\/]+/i,
                   volume_regexp: /v\d+/i,
-                  chapter_regexp: /c(h)\d+/i,
+                  chapter_regexp: /c(h)?\d+/i,
                   name: "mangafox.me",
                   select_id: "select.m option",
                   images_filter: /./ }
     when /batoto\.net/
       @params = { title_regexp: /(?<=\d\/)[^_\.\/]+/i,
                   volume_regexp: /v\d+/i,
-                  chapter_regexp: /c(h)\d+/i,
+                  chapter_regexp: /c(h)?\d+/i,
                   name: "batoto.net",
                   select_id: "select#page_select option",
                   images_filter: /comics/  }
@@ -76,7 +76,12 @@ def get_images(url, path)
   puts "Done. Found #{images.uniq!.count} unique images."
 
   title, vol, chap = url[@params[:title_regexp]], url[@params[:volume_regexp]], url[@params[:chapter_regexp]]
-  Pathname.new(File.join(path, title, vol, chap)).mkpath
+  begin
+    Pathname.new(File.join(path, title, vol, chap)).mkpath
+  rescue TypeError => e
+    puts "#{title}, #{vol}, #{chap}"
+    raise e
+  end
   threads = []
   images.each do |img_url|
     threads << Thread.new(img_url) do |img_link|
@@ -92,4 +97,4 @@ def get_images(url, path)
   puts "Done!"
 end
 
-get_images("http://www.batoto.net/read/_/115018/high-school-dxd_v4_ch18_by_for-the-halibut", "d:/tmp") if (__FILE__ == $0)
+get_images("http://mangafox.me/manga/nozoki_ana/v10/c090/1.html", "d:/tmp") if (__FILE__ == $0)
