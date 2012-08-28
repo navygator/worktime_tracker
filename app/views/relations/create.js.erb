@@ -1,3 +1,5 @@
-$('#approved_by_<%= @relation.approver.id %>').html("<%= escape_javascript(render 'relations/approved_table',
-                approver: @relation.approver) %>");
+$("<%= escape_javascript(render 'relations/approved', approved: @relation.approved, relation: @relation) %>")
+        .appendTo('#<%= dom_id(@relation.approver) %>')
+        .hide()
+        .fadeIn();
 $('#flash').html("<%= escape_javascript(render 'shared/flash_messages') %>");

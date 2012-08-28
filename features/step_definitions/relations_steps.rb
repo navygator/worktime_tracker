@@ -8,8 +8,8 @@ Given /^a admin visit relations page$/ do
   visit relations_path
 end
 
-When /^he click add link$/ do
-  click_link "Add"
+When /^he click (.*) link$/ do |link|
+  click_link link
 end
 
 Then /^he should see add user dialog$/ do

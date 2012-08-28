@@ -1,5 +1,5 @@
 class RelationsController < ApplicationController
-  #before_filter :authenticate
+  before_filter :authenticate
   before_filter :authorized_user, :only => :destroy
 
   respond_to :html, :js, :json
@@ -11,6 +11,7 @@ class RelationsController < ApplicationController
   def new
     approver = User.find(params[:approver_id])
     @relation = approver.relations.build
+    #TODO: filtering already in relations
     @users = User.all
   end
 
@@ -26,25 +27,22 @@ class RelationsController < ApplicationController
     end
   end
 
-  #it stinks
   def destroy
-    if @relation.nil?
-      flash.now[:success] = "You are not allowed this"
-      @relation = Relation.find(params[:id])
-    else
       @relation.destroy
-      flash.now[:success] = "Approving successfully removed"
-    end
+      flash.now[:warn] = "Approving successfully removed"
   end
 
   private
-  #it stinks
   def authorized_user
-    if current_user.admin?
-      @relation = Relation.find(params[:id])
-    else
-      @relation = current_user.relations.find_by_id(params[:id])
+    @relation = current_user.relations.find_by_id(params[:id])
+    @relation ||= @relation = Relation.find(params[:id]) if current_user.admin?
+
+    if @relation.nil?
+      flash[:error] = "You are not allowed this"
+      respond_to do |format|
+        format.js { render :js => "window.location = '/relations'" }
+        format.html { redirect_to relations_path }
+      end
     end
   end
-
 end

@@ -1,8 +1,9 @@
-<table class="table table-striped table-detail">
+<table id="<%= dom_id(approver) %>" class="table table-striped table-detail">
   <tr>
     <th>Approving</th>
     <th>Actions</th>
   </tr>
+  <% #TODO: refactor this %>
   <% approver.approving.each do |approved| %>
       <%= render "approved", approved: approved, relation: approver.relations.where(approved_id: approved).first %>
   <% end %>
