@@ -1,15 +1,19 @@
-Given /^a admin visit relations page$/ do
+Given /^a user sign in as admin$/ do
   @admin = FactoryGirl.create(:admin)
   @user = FactoryGirl.create(:user)
   visit signin_path
   fill_in "Email", with: @admin.email
   fill_in "Password", with: @admin.password
   click_button "Sign in"
+end
+
+When /^he visit relations page$/ do
   visit relations_path
 end
 
-When /^he click (.*) link$/ do |link|
-  click_link link
+And /^he click (.*) link$/ do |link|
+  link = "approver_#{@admin.id}" if link == "User"
+  click_link "#{link}"
 end
 
 Then /^he should see add user dialog$/ do
@@ -17,7 +21,7 @@ Then /^he should see add user dialog$/ do
 end
 
 When /^he select a user from list$/ do
-  select(@user.last_name)
+  select(@user.short_name)
 end
 
 And /^he click ok button$/ do
@@ -25,5 +29,10 @@ And /^he click ok button$/ do
 end
 
 Then /^he should see user at approved table$/ do
+  puts page.html
   page.should have_selector("td", text: @user.short_name)
+end
+
+Then /^he should see Approvers$/ do
+  page.should have_selector("ul#approvers")
 end

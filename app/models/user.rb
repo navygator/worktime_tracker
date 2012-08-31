@@ -12,7 +12,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :middle_name, :password, :password_confirmation
+  attr_accessible :email, :first_name, :last_name, :middle_name, :short_name, :password, :password_confirmation
   has_secure_password
 
   has_many :relations, :foreign_key => :approver_id, :dependent => :destroy

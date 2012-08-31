@@ -14,7 +14,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara', '1.1.2'
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'spork'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
@@ -42,9 +43,10 @@ gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
-gem 'faker'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
+
+gem 'faker'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

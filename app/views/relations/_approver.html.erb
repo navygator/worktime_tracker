@@ -1,5 +1,5 @@
 <div class="approver">
-  <%= link_to approver.short_name, "#approved_by_#{approver.id}",
+  <%= link_to approver.short_name, "#approved_by_#{approver.id}", id: "approver_#{approver.id}",
               "data-toggle" => "collapse", "data-parent" => "#approvers" %>
 </div>
 <div id="approved_by_<%= approver.id %>" class="collapse">
