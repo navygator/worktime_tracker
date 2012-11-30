@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
   has_many :approving, :through => :relations, :source => :approved
   has_many :approvers, :through => :revers_relations, :source => :approver
 
+  has_many :work_items
+
   before_save { self.email.downcase! }
   before_save :create_remember_token
 

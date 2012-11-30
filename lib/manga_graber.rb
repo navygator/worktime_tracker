@@ -23,6 +23,20 @@ def config(url)
                   name: "batoto.net",
                   select_id: "select#page_select option",
                   images_filter: /comics/  }
+    when /adultmanga\.ru/
+      @params = { title_regexp: /(?<=ru\/)[^_\.\/]+/i,
+                  volume_regexp: /v\d+/i,
+                  chapter_regexp: /(?<=vol\d\/)\d+/i,
+                  name: "adultmanga.ru",
+                  select_id: "select.pageSelector",
+                  images_filter: /./  }
+    when /mangachapter\.net/
+      @params = { title_regexp: /(?<=\d\/)[^_\.\/]+/i,
+                  volume_regexp: /(?<=\/)\d+(?=\/)/i,
+                  chapter_regexp: /\d+(?=\.)/i,
+                  name: "mangachapter.net",
+                  select_id: "select.wd60 option",
+                  images_filter: /./  }
     else
       @params = { title_regexp: /(?<=manga\/)[^\/]+/i, volume_regexp: /v\d+/i, chapter_regexp: /c(h)\d+/i,
                   name: "undefined", select_id: "select option", images_filter: /./ }
@@ -33,12 +47,17 @@ def get_pages(url)
   pages = []
   begin
     doc = Nokogiri::HTML(open(url, :proxy => PROXY))
+    #puts doc.css(@params[:select_id])
     doc.css(@params[:select_id]).each do |opt|
       pages << case @params[:name]
                 when "mangafox.me"
                   "#{url}#{opt.content}.html"
                 when "batoto.net"
                   "#{url}#{opt.content.gsub("page", "").strip}"
+                when "adultmanga.ru"
+                  "#{opt.content}"
+                 when "mangachapter.net"
+                   "http://www.#{@params[:name]}#{opt[:value]}"
                 else
                   "http://localhost"
               end
@@ -56,8 +75,10 @@ def get_images(url, path)
   config(url)
 
   puts "Finding pages..."
+  #enclose with forward slash if not document
   url = "#{url}/" unless (url.end_with?('/') || url[/\.(html|htm|php)/i] != nil)
-  pages = get_pages(url[/http:\/\/.+\//i])
+  #get chapter pages from first page
+  pages = get_pages(url) #url[/http:\/\/.+\//i]
   pages << url unless(url[/\.(html|htm|php)/i].nil?)
   puts "Done."
 
@@ -97,4 +118,16 @@ def get_images(url, path)
   puts "Done!"
 end
 
-get_images("http://mangafox.me/manga/nozoki_ana/v10/c090/1.html", "d:/tmp") if (__FILE__ == $0)
+def nav_and_load(url, path)
+  require 'capybara'
+  config(url)
+
+  pages = get_pages(url)
+  puts pages
+end
+
+#nav_and_load("http://adultmanga.ru/to_love_ru_darkness/vol3/13?mature=1", "d:/tmp") if (__FILE__ == $0)
+#get_images("http://adultmanga.ru/to_love_ru_darkness/vol3/13?mature=1", "d:/tmp") if (__FILE__ == $0)
+#url = 'http://www.batoto.net/read/_/137365/high-school-dxd_v4_ch21_by_for-the-halibut'
+url = 'http://www.mangachapter.net/944/nozoki-ana/87.html'
+get_images(url, "d:/tmp")

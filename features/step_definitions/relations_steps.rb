@@ -29,7 +29,6 @@ And /^he click ok button$/ do
 end
 
 Then /^he should see user at approved table$/ do
-  puts page.html
   page.should have_selector("td", text: @user.short_name)
 end
 

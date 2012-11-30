@@ -26,6 +26,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @work_items = @user.work_items
   end
 
   def edit

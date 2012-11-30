@@ -37,6 +37,7 @@ describe User do
   it { should respond_to(:approver) }
   it { should respond_to(:approvers) }
   it { should respond_to(:approving) }
+  it { should respond_to(:work_items) }
 
   it { should be_valid }
   it { should_not be_admin }

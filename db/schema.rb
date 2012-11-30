@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120615092336) do
+ActiveRecord::Schema.define(:version => 20120907100145) do
 
   create_table "relations", :force => true do |t|
     t.integer  "approver_id"
@@ -35,5 +35,16 @@ ActiveRecord::Schema.define(:version => 20120615092336) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "work_items", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "type_id"
+    t.string   "description"
+    t.date     "start_at"
+    t.date     "end_at"
+    t.string   "workflow_state"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
 end

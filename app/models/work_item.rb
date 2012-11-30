@@ -1,5 +1,14 @@
 class WorkItem < ActiveRecord::Base
-  attr_accessible :description, :end_at, :start_at, :type_id, :user_id, :workflow_state
+  attr_accessible :description, :end_at, :start_at, :type_id, :workflow_state
+
+  belongs_to :user
+
+  validates :description, :presence => true, :length => { :maximum => 50}
+  validates :type_id, :presence => true
+  validates :start_at, :presence => true
+  validates :end_at, :presence => true
+
+  default_scope order: 'work_items.start_at DESC'
 
   include Workflow
 
@@ -16,5 +25,5 @@ class WorkItem < ActiveRecord::Base
       event :reject, :transitions_to => :submitted
     end
     state :accepted
-    end
+  end
 end

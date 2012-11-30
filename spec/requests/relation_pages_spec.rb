@@ -4,7 +4,10 @@ describe "RelationPages" do
   subject { page }
 
   let(:approver) { FactoryGirl.create(:user) }
-  before { approver.toggle!(:approver) }
+  before do
+    approver.toggle!(:approver)
+    sign_in(approver)
+  end
 
   describe "index" do
     let(:approving) { FactoryGirl.create(:user) }

@@ -4,11 +4,19 @@ describe "UserPages" do
   subject { page }
 
   describe "user profile" do
-    let(:user) { FactoryGirl.create(:user) }
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:item) { user.work_items.create!(description: "Overwork for test",
+                                          type_id: 1,
+                                          start_at: Time.now,
+                                          end_at: 1.hours.from_now )}
     before { visit user_path(user) }
 
     it { should have_selector('h1', text: user.last_name) }
     it { should have_selector('title', text: user.last_name) }
+
+    describe "view" do
+      it { should have_selector("li", text: "Overwork") }
+    end
 
     describe "edit" do
       before do

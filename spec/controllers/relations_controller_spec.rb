@@ -4,7 +4,10 @@ describe RelationsController do
   render_views
 
   let(:approver) { FactoryGirl.create(:user) }
-  before { approver.toggle!(:approver) }
+  before do
+    approver.toggle!(:approver)
+    sign_in_by_controller(approver)
+  end
 
 
   describe "GET 'new'" do

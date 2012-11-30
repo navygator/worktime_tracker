@@ -9,17 +9,24 @@ gem 'workflow'
 
 group :development, :test do
   gem 'sqlite3'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '2.11.0'
   gem 'annotate', '~> 2.4.1.beta'
+  gem 'guard-spork', '1.2.0'
+  gem 'guard-rspec'
+  gem 'wdm', '~> 0.0.3'
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '1.1.2'
+  gem 'cucumber-rails', '1.2.1', require: false
   gem 'selenium-webdriver'
-  gem 'spork'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
-  gem 'cucumber-rails', require: false
+  gem 'spork-rails'
+  gem 'rb-fchange', '0.0.5'
+  gem 'ZenTest'
+  gem 'ruby_gntp'
+  gem 'win32console', '1.3.0'
 end
 
 group :production do
@@ -39,10 +46,11 @@ group :assets do
   gem 'bootstrap-sass'
 end
 
-gem 'jquery-rails'
-
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
+
+gem 'jquery-rails'
+
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
