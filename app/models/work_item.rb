@@ -9,6 +9,7 @@ class WorkItem < ActiveRecord::Base
   validates :end_at, :presence => true
 
   default_scope order: 'work_items.start_at DESC'
+  scope :accepted, where( :workflow_state => :accepted )
 
   include Workflow
 

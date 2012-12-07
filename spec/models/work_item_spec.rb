@@ -26,6 +26,27 @@ describe WorkItem do
   end
 
   #
+  # accepted
+  #
+  describe "accepted" do
+    before do
+      @item.submit!
+      @item.confirm!
+      @item.accept!
+    end
+
+    it "WorkItem should respond to accepted" do
+      WorkItem.should respond_to(:accepted)
+      @user.work_items.should respond_to(:accepted)
+    end
+
+    it "should return accepted only items on accepted call" do
+      work_items = @user.work_items.accepted
+      work_items.each { |wi| wi.should be_accepted }
+    end
+  end
+
+  #
   # description
   #
   describe "description" do

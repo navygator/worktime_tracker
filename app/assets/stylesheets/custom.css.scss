@@ -39,14 +39,14 @@ textarea {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: #fff;
+  color: #777;
   text-transform: uppercase;
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: #fff;
+    color: #777;
   }
 }
 
@@ -122,13 +122,15 @@ aside {
       line-height: 1;
     }
     h1 {
-      font-size: 1.6em;
+      font-size: 1.4em;
       text-align: left;
       letter-spacing: -1px;
       margin-bottom: 3px;
+      margin-top: 0px;
     }
   }
 }
+
 .avatar {
   float: left;
   margin-right: 10px;

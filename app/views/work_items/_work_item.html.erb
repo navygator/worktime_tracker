@@ -1,1 +1,7 @@
-<li><%= work_item.description %></li>
+<li>
+  <span class="content"><%= work_item.description %></span>
+  <span class="wi-date"><%= work_item.start_at.to_s(:long) %></span>
+  <span class="wi-date"><%= work_item.end_at.to_s(:long) %></span>
+  <span class="wi-workflow-state"></span>
+  <span class="wi-workflow-control"></span>
+</li>

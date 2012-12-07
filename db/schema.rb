@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907100145) do
+ActiveRecord::Schema.define(:version => 20121206124102) do
 
   create_table "relations", :force => true do |t|
     t.integer  "approver_id"
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(:version => 20120907100145) do
     t.integer  "user_id"
     t.integer  "type_id"
     t.string   "description"
-    t.date     "start_at"
-    t.date     "end_at"
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.string   "workflow_state"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false

@@ -8,14 +8,30 @@ describe "UserPages" do
     let!(:item) { user.work_items.create!(description: "Overwork for test",
                                           type_id: 1,
                                           start_at: Time.now,
-                                          end_at: 1.hours.from_now )}
+                                          end_at: 1.hours.since(Time.now))}
     before { visit user_path(user) }
 
     it { should have_selector('h1', text: user.last_name) }
     it { should have_selector('title', text: user.last_name) }
 
     describe "view" do
-      it { should have_selector("li", text: "Overwork") }
+      it { should have_selector("span", text: "Balance:") }
+
+      describe "WorkItems" do
+        before do
+          item.submit!
+          item.confirm!
+          item.accept!
+        end
+
+        it { should have_selector("span", text: item.description) }
+        it { should have_selector("span", text: item.start_at.to_s(:long)) }
+        it { should have_selector("span", text: item.end_at.to_s(:long)) }
+
+        it "should print page content" do
+          puts page.body
+        end
+      end
     end
 
     describe "edit" do

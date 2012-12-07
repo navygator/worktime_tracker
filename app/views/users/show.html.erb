@@ -5,12 +5,12 @@
       <h1>
         <img src="" alt="" class="avatar">
         <%= @user.full_name %>
-        <% deb, cred = @work_items.partition { |wi| wi.type_id? } %>
+        <% deb, cred = @work_items.accepted.partition { |wi| wi.type_id == 1 } %>
       </h1>
-      <strong>Balance: <%= deb.count - cred.count %></strong>
+      <span class="balance">Balance: <%= deb.count - cred.count %></span>
     </section>
   </aside>
-  <div class="span8 offset1">
+  <div class="span8">
     <ul class="work-items">
       <%= render @work_items %>
     </ul>
