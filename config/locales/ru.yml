@@ -3,6 +3,12 @@ ru:
   approved_id: "Пользователь"
   approver: "Утверждающий"
   add_user: "Добавить пользователя"
+  submit: "Принять"
+  confirm: "Согласовать"
+  decline: "Вернуть"
+  accept: "Утвердить"
+  reject: "Отклонить"
+  add: "Создать"
   date:
     abbr_day_names:
     - Вс

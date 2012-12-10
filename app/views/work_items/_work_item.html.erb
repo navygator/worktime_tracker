@@ -2,6 +2,10 @@
   <span class="content"><%= work_item.description %></span>
   <span class="wi-date"><%= work_item.start_at.to_s(:long) %></span>
   <span class="wi-date"><%= work_item.end_at.to_s(:long) %></span>
-  <span class="wi-workflow-state"></span>
-  <span class="wi-workflow-control"></span>
+  <span class="wi-workflow-state"><%= work_item.current_state %></span>
+  <span class="wi-workflow-control">
+    <% work_item.current_state.events.each_key do |k| %>
+      <%= link_to t(k), '#', class: "btn btn-primary" %>
+    <% end %>
+  </span>
 </li>

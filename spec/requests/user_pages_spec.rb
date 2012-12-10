@@ -5,28 +5,44 @@ describe "UserPages" do
 
   describe "user profile" do
     let!(:user) { FactoryGirl.create(:user) }
-    let!(:item) { user.work_items.create!(description: "Overwork for test",
-                                          type_id: 1,
-                                          start_at: Time.now,
-                                          end_at: 1.hours.since(Time.now))}
     before { visit user_path(user) }
 
     it { should have_selector('h1', text: user.last_name) }
     it { should have_selector('title', text: user.last_name) }
 
     describe "view" do
-      it { should have_selector("span", text: "Balance:") }
 
       describe "WorkItems" do
+        let!(:item) { user.work_items.create!(description: "Overwork for test",
+                                              type_id: 1,
+                                              start_at: Time.now,
+                                              end_at: 1.hours.since(Time.now))}
         before do
           item.submit!
-          item.confirm!
-          item.accept!
+          visit user_path(user)
         end
 
         it { should have_selector("span", text: item.description) }
         it { should have_selector("span", text: item.start_at.to_s(:long)) }
         it { should have_selector("span", text: item.end_at.to_s(:long)) }
+        it { should have_selector("span", text: item.workflow_state) }
+        it { should have_selector("a", text: I18n.t(:add))}
+
+        it "should have buttons" do
+          item.current_state.events.each_key do |e|
+            page.should have_selector("a", text: I18n.t(e))
+          end
+        end
+
+        describe "accepted state" do
+          before do
+            item.confirm!
+            item.accept!
+            visit user_path(user)
+          end
+
+          it { should have_selector("span", text: "Balance: 1") }
+        end
 
         it "should print page content" do
           puts page.body
