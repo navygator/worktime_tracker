@@ -24,14 +24,19 @@ When /^he select a user from list$/ do
   select(@user.short_name)
 end
 
-And /^he click ok button$/ do
-  click_button "Ok"
+And /^he click (.*) button$/ do |button|
+  click_button "#{button}"
+end
+
+And /^he accept alert$/ do
+  alert = page.driver.browser.switch_to.alert
+  alert.accept
 end
 
 Then /^he should see user at approved table$/ do
   page.should have_selector("td", text: @user.short_name)
 end
 
-Then /^he should see Approvers$/ do
-  page.should have_selector("ul#approvers")
+Then /^he should not see user at approved table$/ do
+  page.should_not have_selector("td", text: @user.short_name)
 end

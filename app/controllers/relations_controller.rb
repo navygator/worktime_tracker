@@ -11,8 +11,7 @@ class RelationsController < ApplicationController
   def new
     approver = User.find(params[:approver_id])
     @relation = approver.relations.build
-    #TODO: filtering already in relations
-    @users = User.all
+    @users = User.not_approved_by(approver)
   end
 
   def create

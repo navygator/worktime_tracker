@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false },
             format: { with: VALID_EMAIL_REGEX }
 
+  scope :not_approved_by, lambda { |user| have_not_approver(user) }
+
   def full_name
     "#{short_name} #{middle_name}"
   end
@@ -47,5 +49,10 @@ class User < ActiveRecord::Base
 private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64 if self.remember_token.nil?
+  end
+
+  def self.have_not_approver(user)
+    approving_ids = %(SELECT approved_id FROM relations WHERE approver_id = #{user.id} )
+    where("id not in (#{approving_ids}) and id <> ?", user)
   end
 end
