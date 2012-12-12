@@ -1,5 +1,7 @@
 <%= form_for @relation, :remote => true do |f|  %>
-    <%= f.hidden_field :approver_id %>
-    <%= f.label :approved_id, t(:approved_id) %>
-    <%= collection_select :relation, :approved_id, @users, :id, :short_name  %>
+    <div class="controls">
+      <%= f.hidden_field :approver_id %>
+      <%= f.label :approved_id, t(:approved_id) %>
+      <%= collection_select :relation, :approved_id, @users, :id, :short_name  %>
+	</div>
 <% end %>

@@ -1,20 +1,26 @@
+$grayMediumLight: #eaeaea;
 @import "bootstrap";
 
-$grayMediumLight: #eaeaea;
+body {
+  padding-top: 60px;
+}
+
+@import "bootstrap-responsive";
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* universal */
 
-html {
-  overflow-y: scroll;
+@mixin text-shadow($color, $x, $y, $radius ) {
+  text-shadow: $x $y $radius $color;
 }
 
-body {
-  padding-top: 60px;
+
+/* universal */
+html {
+  overflow-y: scroll;
 }
 
 section {
@@ -77,8 +83,38 @@ footer {
 
 /* typography */
 .hero-unit {
+  background:#464646;
+  color:#fff;
   h1 {
     font-size: 4em;
+    @include text-shadow(#000,1px,5px,10px);
+    span{
+      color:#F5821F;
+    }
+  }
+  .btn-info {
+    padding:15px;
+	font-size:1.2em;
+  }
+  form {
+    @include border-radius(10px);
+    background:#6d6b6b;
+    label {
+      font-weight:bold;
+      font-size:1.2em;
+      text-align: left;
+      &.checkbox {
+        font-weight:normal;
+        font-size:1em;
+        color:#2d2d2d;
+      }
+    }
+    input {
+      background:#464646;
+      border:solid 1px #545252;
+      @include box-shadow(inset #2d2d2d 1px 0px 3px);
+      color:#8b7b6c;
+    }
   }
 }
 h1, h2, h3, h4, h5, h6 {
@@ -136,16 +172,24 @@ aside {
 }
 
 /* forms */
-input, textarea, select, .uneditable-input {
-  border: 1px solid #bbb;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  @include box_sizing;
-}
+.controls {
+  input, textarea, select, .uneditable-input {
+    border: 1px solid #bbb;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    @include box_sizing;
+  }
+  input[type="file"], input[type="image"],
+  input[type="submit"], input[type="reset"],
+  input[type="button"], input[type="radio"],
+  input[type="checkbox"] {
+      width: auto;
+  }
 
-input, select {
-  height: auto !important;
+  input, select {
+    height: auto !important;
+  }
 }
 
 #error_explanation {
