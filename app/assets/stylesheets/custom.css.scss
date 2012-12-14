@@ -13,8 +13,8 @@ body {
   box-sizing: border-box;
 }
 
-@mixin text-shadow($color, $x, $y, $radius ) {
-  text-shadow: $x $y $radius $color;
+@mixin text-shadow($shadow ) {
+  text-shadow: $shadow;
 }
 
 
@@ -87,7 +87,7 @@ footer {
   color:#fff;
   h1 {
     font-size: 4em;
-    @include text-shadow(#000,1px,5px,10px);
+    @include text-shadow(#000 1px 5px 10px);
     span{
       color:#F5821F;
     }
@@ -99,6 +99,7 @@ footer {
   form {
     @include border-radius(10px);
     background:#6d6b6b;
+    border: solid 1px #545252;
     label {
       font-weight:bold;
       font-size:1.2em;
@@ -117,6 +118,7 @@ footer {
     }
   }
 }
+
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
