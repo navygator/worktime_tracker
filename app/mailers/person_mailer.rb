@@ -1,0 +1,2 @@
+class PersonMailer
+end
